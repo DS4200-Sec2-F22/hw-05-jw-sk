@@ -6,16 +6,16 @@ const VIS_HEIGHT = FRAME_HEIGHT - MARGINS.left - MARGINS.right;
 const VIS_WIDTH = FRAME_WIDTH - MARGINS.top - MARGINS.bottom; 
 
 const BAR_FRAME = d3.select("#bar-chart")
-                  .append("svgBar")
-                    .attr("height", FRAME_HEIGHT)
-                    .attr("width", FRAME_WIDTH)
-                    .attr("class", "frame"); 
+.append("svg")
+.attr("height", FRAME_HEIGHT)
+.attr("width", FRAME_WIDTH)
+.attr("class", "frame"); 
 
 const SCATTER_FRAME = d3.select("#scatter-plot")
-                  .append("svgScatter")
-                    .attr("height", FRAME_HEIGHT)
-                    .attr("width", FRAME_WIDTH)
-                    .attr("class", "frame")
+.append("svg")
+.attr("height", FRAME_HEIGHT)
+.attr("width", FRAME_WIDTH)
+.attr("class", "frame")
 
 function build_bar_plot() {
 
@@ -24,30 +24,36 @@ function build_bar_plot() {
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.amount); });
     
     const X_SCALE = d3.scaleBand() 
-                      .domain(data.map(function(d) {return d.category;})) 
-                      .range([0, VIS_WIDTH])
-                      .padding(0.2);
+    .range([0, VIS_WIDTH])
+    .domain(data.map(function(d) {return d.category;})) 
+    .padding(0.2);
 
 
     const Y_SCALE = d3.scaleLinear() 
-                      .domain([0, (MAX_Y * 1.2)]) 
-                      .range([0, VIS_HEIGHT]); 
+    .domain([0, (MAX_Y * 1.2)]) 
+    .range([VIS_HEIGHT, 0]); 
 
     BAR_FRAME.selectAll(".bar")  
-        .data(data)
-        .enter()       
-        .append("rect")  
-          .attr("x", (d) => { return (X_SCALE(d.category) + MARGINS.left);})
-          .attr("y", (d) => { return (VIS_HEIGHT - MARGINS.top - Y_SCALE(d.amount));})
-          .attr("width", X_SCALE.bandwidth())
-          .attr("height", (d) => { return Y_SCALE(d.amount)})
-          .attr("class", "bar");
+    .data(data)
+    .enter()       
+    .append("rect")  
+    .attr("x", (d) => { return (X_SCALE(d.category) + MARGINS.left);})
+    .attr("y", (d) => { return (MARGINS.top + Y_SCALE(d.amount));})
+    .attr("width", X_SCALE.bandwidth())
+    .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount)})
+    .attr("class", "bar");
 
     BAR_FRAME.append("g") 
-          .attr("transform", "translate(" + MARGINS.left + 
-                "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-          .call(d3.axisBottom(X_SCALE).ticks(4)) 
-            .attr("font-size", '20px'); 
+    .attr("transform", "translate(" + MARGINS.left + 
+      "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+    .call(d3.axisBottom(X_SCALE).ticks(7)) 
+    .attr("font-size", '20px'); 
+
+    BAR_FRAME.append("g") 
+    .attr("transform", "translate(" + MARGINS.left + 
+      "," + (MARGINS.top) + ")") 
+    .call(d3.axisLeft(Y_SCALE).ticks(10)) 
+    .attr("font-size", '20px'); 
   });
 }
 
@@ -59,32 +65,38 @@ function build_scatter_plot() {
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.y);});
     
     const X_SCALE = d3.scaleLinear() 
-                      .domain([0, (MAX_X * 1.2)]) 
-                      .range([0, VIS_WIDTH])
+    .domain([0, 10]) 
+    .range([0, VIS_WIDTH])
 
     const Y_SCALE = d3.scaleLinear() 
-                      .domain([0, (MAX_Y * 1.2)]) 
-                      .range([VIS_HEIGHT,0]); 
+    .domain([0, 10]) 
+    .range([VIS_HEIGHT,0]); 
 
     SCATTER_FRAME.selectAll("dot")  
-        .data(data)
-        .enter()       
-        .append("circle")  
-          .attr("cx", (d) => { return (X_SCALE(d.x));})
-          .attr("cy", (d) => { return (Y_SCALE(d.y));})
-          .attr("r", 5)
-          .attr("class", "point");
+    .data(data)
+    .enter()       
+    .append("circle")  
+    .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left);})
+    .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top);})
+    .attr("r", 5)
+    .attr("class", "point");
 
     SCATTER_FRAME.append("g") 
-          .attr("transform", "translate(" + MARGINS.left + 
-                "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-          .call(d3.axisBottom(X_SCALE).ticks(4)) 
-            .attr("font-size", '20px'); 
+    .attr("transform", "translate(" + MARGINS.left + 
+      "," + (VIS_HEIGHT + MARGINS.top) + ")") 
+    .call(d3.axisBottom(X_SCALE).ticks(11)) 
+    .attr("font-size", '20px'); 
+
+    SCATTER_FRAME.append("g") 
+    .attr("transform", "translate(" + MARGINS.left + 
+      "," + (MARGINS.top) + ")") 
+    .call(d3.axisLeft(Y_SCALE).ticks(11)) 
+    .attr("font-size", '20px'); 
   });
 }
 
 function addPoint() {
-let objX = document.getElementById("xSelect");
+  let objX = document.getElementById("xSelect");
   let xChord = objX.options[objX.selectedIndex].text;
 
   let objY = document.getElementById("ySelect");
