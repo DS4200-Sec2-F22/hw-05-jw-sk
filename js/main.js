@@ -19,7 +19,7 @@ const SCATTER_FRAME = d3.select("#scatter-plot")
 
 function build_bar_plot() {
 
-  d3.csv("bar-data/data.csv").then((data) => {
+  d3.csv("data/bar-data.csv").then((data) => {
 
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.Value); });
     
@@ -55,7 +55,7 @@ function build_bar_plot() {
 
 function build_scatter_plot() {
 
-  d3.csv("scatter-data/data.csv").then((data) => {
+  d3.csv("data/scatter-data.csv").then((data) => {
 
     const MAX_X = d3.max(data, (d) => { return parseInt(d.x); });
     const MAX_Y = d3.max(data, (d) => { return parseInt(d.y); });
