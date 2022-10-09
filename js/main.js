@@ -12,7 +12,7 @@ const BAR_FRAME = d3.select("#bar-chart")
                     .attr("class", "frame"); 
 
 const SCATTER_FRAME = d3.select("#scatter-plot")
-                  .append("svgScat")
+                  .append("svgScatter")
                     .attr("height", FRAME_HEIGHT)
                     .attr("width", FRAME_WIDTH)
                     .attr("class", "frame")
@@ -21,10 +21,10 @@ function build_bar_plot() {
 
   d3.csv("data/bar-data.csv").then((data) => {
 
-    const MAX_Y = d3.max(data, (d) => { return parseInt(d.Value); });
+    const MAX_Y = d3.max(data, (d) => { return parseInt(d.amount); });
     
     const X_SCALE = d3.scaleBand() 
-                      .domain(data.map(function(d) {return d.Category; })) 
+                      .domain(data.map(function(d) {return d.category;})) 
                       .range([0, VIS_WIDTH])
                       .padding(0.2);
 
@@ -37,10 +37,10 @@ function build_bar_plot() {
         .data(data)
         .enter()       
         .append("rect")  
-          .attr("x", (d) => { return (X_SCALE(d.Category) + MARGINS.left);})
-          .attr("y", (d) => { return (VIS_HEIGHT - MARGINS.top - Y_SCALE(d.Value));})
+          .attr("x", (d) => { return (X_SCALE(d.category) + MARGINS.left);})
+          .attr("y", (d) => { return (VIS_HEIGHT - MARGINS.top - Y_SCALE(d.amount));})
           .attr("width", X_SCALE.bandwidth())
-          .attr("height", (d) => { return Y_SCALE(d.Value)})
+          .attr("height", (d) => { return Y_SCALE(d.amount)})
           .attr("class", "bar");
 
     BAR_FRAME.append("g") 
@@ -48,8 +48,6 @@ function build_bar_plot() {
                 "," + (VIS_HEIGHT + MARGINS.top) + ")") 
           .call(d3.axisBottom(X_SCALE).ticks(4)) 
             .attr("font-size", '20px'); 
-
-
   });
 }
 
@@ -57,14 +55,12 @@ function build_scatter_plot() {
 
   d3.csv("data/scatter-data.csv").then((data) => {
 
-    const MAX_X = d3.max(data, (d) => { return parseInt(d.x); });
-    const MAX_Y = d3.max(data, (d) => { return parseInt(d.y); });
+    const MAX_X = d3.max(data, (d) => { return parseInt(d.x);});
+    const MAX_Y = d3.max(data, (d) => { return parseInt(d.y);});
     
     const X_SCALE = d3.scaleLinear() 
                       .domain([0, (MAX_X * 1.2)]) 
                       .range([0, VIS_WIDTH])
-                      .padding(0.2);
-
 
     const Y_SCALE = d3.scaleLinear() 
                       .domain([0, (MAX_Y * 1.2)]) 
@@ -76,17 +72,14 @@ function build_scatter_plot() {
         .append("circle")  
           .attr("cx", (d) => { return (X_SCALE(d.x));})
           .attr("cy", (d) => { return (Y_SCALE(d.y));})
-          .attr("width", X_SCALE.bandwidth())
-          .attr("height", (d) => { return Y_SCALE(d.y)})
-          .attr("class", "bar");
+          .attr("r", 5)
+          .attr("class", "point");
 
     SCATTER_FRAME.append("g") 
           .attr("transform", "translate(" + MARGINS.left + 
                 "," + (VIS_HEIGHT + MARGINS.top) + ")") 
           .call(d3.axisBottom(X_SCALE).ticks(4)) 
             .attr("font-size", '20px'); 
-
-
   });
 }
 

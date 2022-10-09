@@ -7,6 +7,40 @@ body {
   width: 60%;
 }
 
-#column1 {
+#column2 {
   width: 40%;
+}
+
+.flex-container {
+  
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.bar {
+  fill: seagreen;
+}
+
+.point {
+  fill: blueviolet;
+  stroke: green;
+  stroke-width: 0px;
+}
+
+.yes_border {
+  fill: blueviolet;
+  stroke: green;
+  stroke-width: 5px;
+}
+
+button {
+    margin: 20px;
+    width: 200px;
 }
