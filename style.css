@@ -1,6 +1,9 @@
-
 body {
   font-family: Arial;
+}
+
+.header {
+  text-align: center;
 }
 
 #column1 {
@@ -25,19 +28,27 @@ body {
 }
 
 .bar {
-  fill: seagreen;
+  fill: blueviolet;
 }
 
 .point {
   fill: blueviolet;
-  stroke: green;
+  stroke: black;
   stroke-width: 0px;
 }
 
 .yes_border {
   fill: blueviolet;
-  stroke: green;
+  stroke: black;
   stroke-width: 5px;
+}
+
+.display_text {
+  display: none;
+}
+
+.display_text_not {
+  display: block;
 }
 
 button {
