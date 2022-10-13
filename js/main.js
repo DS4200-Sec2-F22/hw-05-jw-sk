@@ -105,7 +105,6 @@ function build_bar_plot() {
 
       // hides the tooltip
       tooltip.transition()
-      .duration(200)
       .style("opacity", 0);
     }
 
