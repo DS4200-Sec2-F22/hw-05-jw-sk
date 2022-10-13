@@ -123,7 +123,7 @@ function build_scatter_plot() {
     // define scale functions that maps our data values to pixel values (range) 
     const X_SCALE = d3.scaleLinear() 
     .domain([0, 10]) 
-    .range([0, VIS_WIDTH])
+    .range([0, VIS_WIDTH]);
 
     const Y_SCALE = d3.scaleLinear() 
     .domain([0, 10]) 
@@ -169,7 +169,7 @@ function build_scatter_plot() {
 
       // removing old points
       SCATTER_FRAME.selectAll('.point')
-      .remove()
+      .remove();
 
       // plot with the new updated data set 
       SCATTER_FRAME.selectAll('dot')
@@ -205,7 +205,7 @@ function build_scatter_plot() {
 
     function point_clicked(event, d) {
       // css toggle; when point is clicked, 'yes_border' is activated
-      d3.select(this).classed("yes_border", d3.select(this).classed("yes_border") ? false : true)
+      d3.select(this).classed("yes_border", d3.select(this).classed("yes_border") ? false : true);
 
       // getting coordinates of the current element 
       const xChord = d3.select(this).attr('xchord');
@@ -215,7 +215,6 @@ function build_scatter_plot() {
       let display_text = document.getElementById('display_text');
       const objID = "(" + xChord + "," + yChord + ")";
       display_text.innerHTML = "Last point clicked:" + objID ;
-
     }
 
     // event listener to add point when button is clicked 
