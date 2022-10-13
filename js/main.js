@@ -104,8 +104,7 @@ function build_bar_plot() {
       .style("fill", "blueviolet");
 
       // hides the tooltip
-      tooltip.transition()
-      .style("opacity", 0);
+      tooltip.style("opacity", 0);
     }
 
   });
