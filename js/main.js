@@ -47,7 +47,10 @@ function build_bar_plot() {
     .attr("y", (d) => { return (MARGINS.top + Y_SCALE(d.amount));})
     .attr("width", X_SCALE.bandwidth())
     .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount)})
-    .attr("class", "bar");
+    .attr("class", "bar")
+    .on("mouseenter", bar_hover_over)
+    .on("mousemove", bar_move)
+    .on("mouseleave", bar_hover_out);
 
     // add X axis 
     BAR_FRAME.append("g") 
@@ -61,26 +64,51 @@ function build_bar_plot() {
     .attr("transform", "translate(" + MARGINS.left + 
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE).ticks(10)) 
-    .attr("font-size", '20px'); 
+    .attr("font-size", '20px');
 
-    // adding event listeners for all functionality 
-    BAR_FRAME.selectAll(".bar")
-          .on("mouseover", bar_hover_over)
-          .on("mouseleave", bar_hover_out)
+    // create a tooltip
+    let tooltip = d3.select("#bar-chart")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("width", "100px")
+    .style("height", "75px")
+    .style("text-align", "center");
+
 
     function bar_hover_over(event, d) {
       // add 'hover' functionality
       // on mouseover, change to green  
       d3.select(event.currentTarget)
-        .style("fill", "green");
+      .style("fill", "green");
+
+      tooltip.style("opacity", 1);
+    }
+
+    function bar_move(event, d) {
+      // add 'hover' tooltop movement functionality and text to the tooltip
+      tooltip.html("<p>Category: " + d.category + "</p><p>Value: " + d.amount + "</p>");
+      
+      // moves the tooltip with the mouse
+      tooltip.style("transform", "translate(" + d3.pointer(event)[0] + "px," + (-620 + d3.pointer(event)[1]) + "px)");
     }
 
     function bar_hover_out(event, d) {
       // on mouseleave, change back to the original color 
       d3.select(event.currentTarget)
-        .style("fill", "blueviolet");
+      .style("fill", "blueviolet");
 
+      // hides the tooltip
+      tooltip.transition()
+      .duration(200)
+      .style("opacity", 0);
     }
+
   });
 }
 
@@ -126,7 +154,7 @@ function build_scatter_plot() {
       "," + (MARGINS.top) + ")") 
     .call(d3.axisLeft(Y_SCALE).ticks(11)) 
     .attr("font-size", '20px'); 
-  
+
 
     function addPoint() {
       // constants for user selected values
@@ -147,31 +175,31 @@ function build_scatter_plot() {
       SCATTER_FRAME.selectAll('dot')
       .data(data).enter()
       .append("circle")
-        .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left);}) 
-        .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top);}) 
-        .attr("xchord", (d) => { return d.x })
-        .attr("ychord", (d) => { return d.y })
-        .attr("r", 10)
-        .attr('class', 'point');
+      .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left);}) 
+      .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top);}) 
+      .attr("xchord", (d) => { return d.x })
+      .attr("ychord", (d) => { return d.y })
+      .attr("r", 10)
+      .attr('class', 'point');
 
       // adding event listeners for all functionality 
       SCATTER_FRAME.selectAll(".point")
-         .on("mouseover", hover_over)
-         .on("mouseleave", hover_out)
-         .on("click", point_clicked);
+      .on("mouseover", hover_over)
+      .on("mouseleave", hover_out)
+      .on("click", point_clicked);
     }
 
     function hover_over(event, d) {
       // add 'hover' functionality
       // on mouseover, change to green  
       d3.select(event.currentTarget)
-        .style("fill", "green");
+      .style("fill", "green");
     }
 
     function hover_out(event, d) {
       // on mouseleave, change back to the original color 
       d3.select(event.currentTarget)
-        .style("fill", "blueviolet");
+      .style("fill", "blueviolet");
 
     }
 
@@ -195,9 +223,9 @@ function build_scatter_plot() {
 
     // adding event listeners for all functionality 
     SCATTER_FRAME.selectAll(".point")
-          .on("mouseover", hover_over)
-          .on("mouseleave", hover_out)
-          .on("click", point_clicked);
+    .on("mouseover", hover_over)
+    .on("mouseleave", hover_out)
+    .on("click", point_clicked);
 
   });
 
