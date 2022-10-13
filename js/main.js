@@ -30,7 +30,7 @@ function build_bar_plot() {
     // X scale 
     const X_SCALE = d3.scaleBand() 
     .range([0, VIS_WIDTH])
-    .domain(data.map(function(d) {return d.category;})) 
+    .domain(data.map(function(d) {return d.category; })) 
     .padding(0.2);
 
     // Y scale 
@@ -43,10 +43,10 @@ function build_bar_plot() {
     .data(data)
     .enter()       
     .append("rect")  
-    .attr("x", (d) => { return (X_SCALE(d.category) + MARGINS.left);})
-    .attr("y", (d) => { return (MARGINS.top + Y_SCALE(d.amount));})
+    .attr("x", (d) => { return (X_SCALE(d.category) + MARGINS.left); })
+    .attr("y", (d) => { return (MARGINS.top + Y_SCALE(d.amount)); })
     .attr("width", X_SCALE.bandwidth())
-    .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount)})
+    .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount); })
     .attr("class", "bar")
     .on("mouseenter", bar_hover_over)
     .on("mousemove", bar_move)
@@ -115,8 +115,8 @@ function build_scatter_plot() {
   d3.csv("data/scatter-data.csv").then((data) => {
 
     // find max values 
-    const MAX_X = d3.max(data, (d) => { return parseInt(d.x);});
-    const MAX_Y = d3.max(data, (d) => { return parseInt(d.y);});
+    const MAX_X = d3.max(data, (d) => { return parseInt(d.x); });
+    const MAX_Y = d3.max(data, (d) => { return parseInt(d.y); });
     
     // define scale functions that maps our data values to pixel values (range) 
     const X_SCALE = d3.scaleLinear() 
@@ -132,10 +132,10 @@ function build_scatter_plot() {
     .data(data)
     .enter()       
     .append("circle")  
-    .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left);})
-    .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top);})
-    .attr("xchord", (d) => { return d.x })
-    .attr("ychord", (d) => { return d.y })
+    .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left); })
+    .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top); })
+    .attr("xchord", (d) => { return d.x; })
+    .attr("ychord", (d) => { return d.y; })
     .attr("r", 10)
     .attr("class", "point");
 
@@ -173,10 +173,10 @@ function build_scatter_plot() {
       SCATTER_FRAME.selectAll('dot')
       .data(data).enter()
       .append("circle")
-      .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left);}) 
-      .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top);}) 
-      .attr("xchord", (d) => { return d.x })
-      .attr("ychord", (d) => { return d.y })
+      .attr("cx", (d) => { return (X_SCALE(d.x) + MARGINS.left); }) 
+      .attr("cy", (d) => { return (Y_SCALE(d.y) + MARGINS.top); }) 
+      .attr("xchord", (d) => { return d.x; })
+      .attr("ychord", (d) => { return d.y; })
       .attr("r", 10)
       .attr('class', 'point');
 
@@ -212,7 +212,7 @@ function build_scatter_plot() {
       // updating the display test based on the most recent point clicked
       let display_text = document.getElementById('display_text');
       const objID = "(" + xChord + "," + yChord + ")";
-      display_text.innerHTML = "Last point clicked:" + objID ;
+      display_text.innerHTML = "Last point clicked: " + objID;
     }
 
     // event listener to add point when button is clicked 
